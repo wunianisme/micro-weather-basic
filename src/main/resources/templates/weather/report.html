@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--Bootstrap需引入meta标签-->
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <!--Bootstrap css-->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous">
+
+    <title>勿念的天气预报</title>
+</head>
+<!--thymeleaf模板的使用-->
+<body>
+    <div class="container">
+        <div class="row">
+            <h3 th:text="${reportModel.title}">wunian</h3>
+            <select class="custom-select " id="selectCityId">
+                <option th:each="city:${reportModel.cityList}"
+                        th:value="${city.cityId}" th:text="${city.cityName}"
+                        th:selected="${city.cityId eq reportModel.cityId}"></option><!--默认选中某一项-->
+            </select>
+        </div>
+        <div class="row">
+            <h1 th:text="${reportModel.report.city}" class="text-success">深圳</h1><!--标签内的文本在不使用thymeleaf的情况下才会显示-->
+        </div>
+        <div class="row">
+            <p>空气质量指数：<span th:text="${reportModel.report.aqi}"></span></p>
+        </div>
+        <div class="row">
+            <p>当前温度：<span th:text="${reportModel.report.wendu}"></span></p>
+        </div>
+        <div class="row">
+            <p>温馨提示：<span th:text="${reportModel.report.ganmao}"></span></p>
+        </div>
+        <div class="row">
+            <!--遍历输出未来五天的天气情况-->
+            <div class="card" th:each="forecast:${reportModel.report.forecast}">
+                <div class="card-body border-info">
+                    <p class="card-text text-info" th:text="${forecast.date}">日期</p>
+                    <p class="card-text" th:text="${forecast.type}">天气类型</p>
+                    <p class="card-text" th:text="${forecast.high}">最高温度</p>
+                    <p class="card-text" th:text="${forecast.low}">最低温度</p>
+                    <p class="card-text" th:text="${forecast.fengli}">风力</p>
+                    <p class="card-text" th:text="${forecast.fengxiang}">风向</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+    <!--js文件一般会放在尾部，文件比较大加载可能会比较慢，应该先把页面渲染出来再加载js-->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" th:src="@{/js/report.js}"></script>
+
+
+</body>
+</html>
